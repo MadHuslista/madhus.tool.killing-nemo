@@ -1,0 +1,36 @@
+# Nemo Window Pruner PoC v0.1 configuration
+# Keep dry_run=true until logs demonstrate that the selected policy matches your workflow.
+
+[policy]
+# Maximum Nemo windows retained in the selected scope.
+max_windows = 5
+
+# A window must have been unfocused this long before it can be selected for closure.
+min_inactive_minutes = 30.0
+
+# Protect every window after daemon start / first detection because prior focus history is unknown.
+startup_grace_minutes = 30.0
+
+# X11 polling cadence. Two seconds is low overhead and sufficient for this use case.
+poll_interval_seconds = 2.0
+
+# Safety brake: never close more than one window per evaluation cycle.
+max_closes_per_cycle = 1
+
+# A currently focused Nemo window is never closed.
+protect_focused_window = true
+
+# Supported values: "current_workspace" or "all_workspaces".
+scope = "current_workspace"
+
+# Safety default. Change to false only after completing the dry-run validation procedure.
+dry_run = true
+
+[matching]
+# Run `nemo-window-pruner --config ~/.config/nemo-window-pruner/config.toml --discover`
+# to confirm your system reports this exact WM_CLASS pair.
+wm_class_instance = "nemo"
+wm_class_name = "Nemo"
+
+[logging]
+level = "INFO"

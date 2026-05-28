@@ -1,0 +1,15 @@
+[Unit]
+Description=Nemo Window Pruner PoC v0.1 (X11 only)
+Documentation=file:%h/.local/share/doc/nemo-window-pruner/README.md
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/nemo-window-pruner --config %h/.config/nemo-window-pruner/config.toml
+Restart=on-failure
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target
