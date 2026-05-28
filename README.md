@@ -10,15 +10,15 @@ Use this PoC in **dry-run mode first**. It is intentionally conservative and sta
 
 ### Default policy
 
-| Control | v0.1 default | Purpose |
-|---|---:|---|
-| Scope | Current workspace only | Avoid affecting context on other workspaces |
-| Maximum Nemo windows | 5 | Retain a bounded active working set |
-| Minimum inactivity before eligible close | 30 minutes | Avoid pruning recently used directories |
-| Startup grace period | 30 minutes | Focus history before daemon launch is unknown |
-| Focused window | Always protected | Never close the window currently being used |
-| Closures per poll cycle | 1 maximum | Prevent cascaded destructive behavior |
-| Execution mode | Dry run | Log candidate actions without closing anything |
+| Control                                  |           v0.1 default | Purpose                                        |
+| ---------------------------------------- | ---------------------: | ---------------------------------------------- |
+| Scope                                    | Current workspace only | Avoid affecting context on other workspaces    |
+| Maximum Nemo windows                     |                      5 | Retain a bounded active working set            |
+| Minimum inactivity before eligible close |             30 minutes | Avoid pruning recently used directories        |
+| Startup grace period                     |             30 minutes | Focus history before daemon launch is unknown  |
+| Focused window                           |       Always protected | Never close the window currently being used    |
+| Closures per poll cycle                  |              1 maximum | Prevent cascaded destructive behavior          |
+| Execution mode                           |                Dry run | Log candidate actions without closing anything |
 
 ### What this PoC is and is not
 
@@ -250,19 +250,19 @@ Configuration file after installation:
 ~/.config/nemo-window-pruner/config.toml
 ```
 
-| Key | Type | Default | Operational effect | Risk when changed |
-|---|---|---:|---|---|
-| `policy.max_windows` | integer | `5` | Number of retained Nemo windows in scope | Too low increases unwanted closures |
-| `policy.min_inactive_minutes` | float | `30.0` | Required time since last observed focus | `0` enables immediate pruning after grace |
-| `policy.startup_grace_minutes` | float | `30.0` | Protects windows whose earlier activity is unknown | `0` may prune old windows immediately after launch |
-| `policy.poll_interval_seconds` | float | `2.0` | Observation cadence | Very low values add unnecessary polling |
-| `policy.max_closes_per_cycle` | integer | `1` | Closure rate limiter | Higher values can prune several windows rapidly |
-| `policy.protect_focused_window` | boolean | `true` | Excludes active window | Keep `true` |
-| `policy.scope` | enum | `"current_workspace"` | Limits counted/closed windows | `"all_workspaces"` can disturb hidden contexts |
-| `policy.dry_run` | boolean | `true` | When true, only log candidate closures | `false` performs closure requests |
-| `matching.wm_class_instance` | string | `"nemo"` | Exact application-instance match | Wrong value means no detection or wrong matching |
-| `matching.wm_class_name` | string | `"Nemo"` | Exact application-class match | Confirm through `--discover` |
-| `logging.level` | string | `"INFO"` | Logging verbosity | Use `DEBUG` only for diagnosis |
+| Key                             | Type    |               Default | Operational effect                                 | Risk when changed                                  |
+| ------------------------------- | ------- | --------------------: | -------------------------------------------------- | -------------------------------------------------- |
+| `policy.max_windows`            | integer |                   `5` | Number of retained Nemo windows in scope           | Too low increases unwanted closures                |
+| `policy.min_inactive_minutes`   | float   |                `30.0` | Required time since last observed focus            | `0` enables immediate pruning after grace          |
+| `policy.startup_grace_minutes`  | float   |                `30.0` | Protects windows whose earlier activity is unknown | `0` may prune old windows immediately after launch |
+| `policy.poll_interval_seconds`  | float   |                 `2.0` | Observation cadence                                | Very low values add unnecessary polling            |
+| `policy.max_closes_per_cycle`   | integer |                   `1` | Closure rate limiter                               | Higher values can prune several windows rapidly    |
+| `policy.protect_focused_window` | boolean |                `true` | Excludes active window                             | Keep `true`                                        |
+| `policy.scope`                  | enum    | `"current_workspace"` | Limits counted/closed windows                      | `"all_workspaces"` can disturb hidden contexts     |
+| `policy.dry_run`                | boolean |                `true` | When true, only log candidate closures             | `false` performs closure requests                  |
+| `matching.wm_class_instance`    | string  |              `"nemo"` | Exact application-instance match                   | Wrong value means no detection or wrong matching   |
+| `matching.wm_class_name`        | string  |              `"Nemo"` | Exact application-class match                      | Confirm through `--discover`                       |
+| `logging.level`                 | string  |              `"INFO"` | Logging verbosity                                  | Use `DEBUG` only for diagnosis                     |
 
 ### Suggested policy after a successful trial
 
@@ -310,10 +310,10 @@ tail -n 100 ~/.local/state/nemo-window-pruner/autostart.log
 
 Action labels:
 
-| Log action | Meaning |
-|---|---|
-| `WOULD_CLOSE` | Dry-run candidate; no operation occurred |
-| `CLOSE` | Live mode issued a normal close request to that window |
+| Log action     | Meaning                                                             |
+| -------------- | ------------------------------------------------------------------- |
+| `WOULD_CLOSE`  | Dry-run candidate; no operation occurred                            |
+| `CLOSE`        | Live mode issued a normal close request to that window              |
 | `Cycle failed` | Inspection or close command failed; review dependency/display state |
 
 ### 5.3 Temporarily disable start-on-login
@@ -374,13 +374,13 @@ Do not enable both the Cinnamon autostart entry and the systemd user unit: two p
 
 ## 7. Known limitations and next-version candidates
 
-| Limitation | Consequence | Potential v0.2 response |
-|---|---|---|
-| X11-only | Not reliable for Wayland sessions | Cinnamon/Muffin API extension or Wayland-specific research |
-| Activity history starts at process launch | A previously important window appears initially “new” | Persistence of recent window paths/activity, with privacy review |
-| No undo history | Closed directory must be reopened manually | Record directory URI/title before close; offer reopen command |
-| Window title is not a stable directory identifier | Logs communicate behavior but cannot robustly restore context | Query Nemo/D-Bus capability or Cinnamon integration |
-| Policy has no GUI | Configuration requires TOML editing | Cinnamon settings UI after policy validation |
+| Limitation                                        | Consequence                                                   | Potential v0.2 response                                          |
+| ------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------- |
+| X11-only                                          | Not reliable for Wayland sessions                             | Cinnamon/Muffin API extension or Wayland-specific research       |
+| Activity history starts at process launch         | A previously important window appears initially “new”         | Persistence of recent window paths/activity, with privacy review |
+| No undo history                                   | Closed directory must be reopened manually                    | Record directory URI/title before close; offer reopen command    |
+| Window title is not a stable directory identifier | Logs communicate behavior but cannot robustly restore context | Query Nemo/D-Bus capability or Cinnamon integration              |
+| Policy has no GUI                                 | Configuration requires TOML editing                           | Cinnamon settings UI after policy validation                     |
 
 ### Exit criteria for promoting to v0.2
 
@@ -395,13 +395,13 @@ Promote beyond the PoC only after the dry-run/live trial answers these questions
 
 ## 8. Implementation evidence and source validation
 
-| Key implementation decision | Validation source | Implication for v0.1 |
-|---|---|---|
-| Nemo is the Cinnamon file manager and offers `--tabs`, `--existing-window`, and `--quit` CLI options | Ubuntu Nemo manpage, package `nemo` 6.0.2 | Nemo can broadly reuse/quit windows, but selective per-window pruning is not a Nemo CLI feature |
-| `_NET_ACTIVE_WINDOW` is the standardized property for the currently active window | freedesktop.org EWMH specification §3.8 | `xprop -root _NET_ACTIVE_WINDOW` is a standards-grounded focus signal on X11 |
-| File-manager desktop windows may be a distinct EWMH desktop-type window | freedesktop.org EWMH implementation notes §9.2 | Exact `WM_CLASS=nemo.Nemo` matching prevents intended interaction with desktop management windows |
-| `wmctrl -l` enumerates managed windows, `-x` includes `WM_CLASS`, and `-c` closes a selected window gracefully | Ubuntu `wmctrl(1)` manpage | A lightweight script can selectively request closure without killing the Nemo process |
-| Nemo’s official extension repository contains content/integration extensions, not window lifecycle policy machinery | Linux Mint `nemo-extensions` repository | A PoC at the window-manager layer is proportionate before building a Cinnamon extension |
+| Key implementation decision                                                                                         | Validation source                              | Implication for v0.1                                                                              |
+| ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Nemo is the Cinnamon file manager and offers `--tabs`, `--existing-window`, and `--quit` CLI options                | Ubuntu Nemo manpage, package `nemo` 6.0.2      | Nemo can broadly reuse/quit windows, but selective per-window pruning is not a Nemo CLI feature   |
+| `_NET_ACTIVE_WINDOW` is the standardized property for the currently active window                                   | freedesktop.org EWMH specification §3.8        | `xprop -root _NET_ACTIVE_WINDOW` is a standards-grounded focus signal on X11                      |
+| File-manager desktop windows may be a distinct EWMH desktop-type window                                             | freedesktop.org EWMH implementation notes §9.2 | Exact `WM_CLASS=nemo.Nemo` matching prevents intended interaction with desktop management windows |
+| `wmctrl -l` enumerates managed windows, `-x` includes `WM_CLASS`, and `-c` closes a selected window gracefully      | Ubuntu `wmctrl(1)` manpage                     | A lightweight script can selectively request closure without killing the Nemo process             |
+| Nemo’s official extension repository contains content/integration extensions, not window lifecycle policy machinery | Linux Mint `nemo-extensions` repository        | A PoC at the window-manager layer is proportionate before building a Cinnamon extension           |
 
 ### Referenced sources
 
@@ -420,9 +420,9 @@ This is the smallest implementation that can validate the actual behavioral poli
 
 ### Alternatives deferred
 
-| Alternative | Deferred because |
-|---|---|
-| Nemo action only | Requires manual invocation and cannot implement inactive-window policy cleanly |
-| `nemo --quit` cleanup | Closes Nemo broadly rather than selectively |
-| Cinnamon extension | Better long-term UX, but prematurely expensive before policy validation |
+| Alternative                     | Deferred because                                                                        |
+| ------------------------------- | --------------------------------------------------------------------------------------- |
+| Nemo action only                | Requires manual invocation and cannot implement inactive-window policy cleanly          |
+| `nemo --quit` cleanup           | Closes Nemo broadly rather than selectively                                             |
+| Cinnamon extension              | Better long-term UX, but prematurely expensive before policy validation                 |
 | Wayland-oriented implementation | Not required for the current Mint/Cinnamon X11 validation path and needs different APIs |

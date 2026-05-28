@@ -9,6 +9,7 @@ spec = importlib.util.spec_from_file_location("nemo_window_pruner", MODULE_PATH)
 mod = importlib.util.module_from_spec(spec)
 assert spec.loader is not None
 import sys
+
 sys.modules[spec.name] = mod
 spec.loader.exec_module(mod)
 
@@ -39,10 +40,7 @@ class ParsingTests(unittest.TestCase):
 
 class PolicyTests(unittest.TestCase):
     def make_windows(self, count: int) -> list[mod.ManagedWindow]:
-        return [
-            mod.ManagedWindow(f"0x{i:08x}", 0, "nemo.Nemo", "host", f"Window {i}")
-            for i in range(1, count + 1)
-        ]
+        return [mod.ManagedWindow(f"0x{i:08x}", 0, "nemo.Nemo", "host", f"Window {i}") for i in range(1, count + 1)]
 
     def test_does_not_close_at_or_below_limit(self) -> None:
         cfg = mod.Config(max_windows=3, min_inactive_minutes=0, startup_grace_minutes=0)

@@ -6,4 +6,4 @@ STATE_DIR="$STATE_HOME/nemo-window-pruner"
 mkdir -p "$STATE_DIR"
 exec "$HOME/.local/bin/nemo-window-pruner" \
   --config "$CONFIG_HOME/nemo-window-pruner/config.toml" \
-  >> "$STATE_DIR/autostart.log" 2>&1
+  >>"$STATE_DIR/autostart.log" 2>&1

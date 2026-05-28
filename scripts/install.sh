@@ -3,9 +3,12 @@ set -euo pipefail
 
 ENABLE_AUTOSTART=false
 case "${1:-}" in
-  "") ;;
-  --enable-autostart) ENABLE_AUTOSTART=true ;;
-  *) printf 'Usage: %s [--enable-autostart]\n' "$0" >&2; exit 2 ;;
+"") ;;
+--enable-autostart) ENABLE_AUTOSTART=true ;;
+*)
+  printf 'Usage: %s [--enable-autostart]\n' "$0" >&2
+  exit 2
+  ;;
 esac
 
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"

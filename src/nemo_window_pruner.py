@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Nemo Window Pruner PoC v0.1.
+"""
+Nemo Window Pruner PoC v0.1.
 
 Safely prunes excess inactive Nemo file-manager windows on X11 desktops by
 observing EWMH window metadata via wmctrl/xprop and sending a graceful close
@@ -17,9 +18,10 @@ import signal
 import subprocess
 import sys
 import time
-import tomllib
 from pathlib import Path
 from typing import Iterable, Sequence
+
+import tomllib
 
 APP_NAME = "nemo-window-pruner"
 DEFAULT_CONFIG_PATH = Path.home() / ".config" / APP_NAME / "config.toml"
@@ -292,7 +294,9 @@ def validate_environment() -> None:
         raise PrunerError("Missing dependency `xprop`; install with: sudo apt install x11-utils")
     session_type = os.environ.get("XDG_SESSION_TYPE", "").casefold()
     if session_type == "wayland":
-        raise PrunerError("This v0.1 PoC supports X11 only; Wayland/XWayland cannot provide reliable full window control.")
+        raise PrunerError(
+            "This v0.1 PoC supports X11 only; Wayland/XWayland cannot provide reliable full window control."
+        )
     if not os.environ.get("DISPLAY"):
         raise PrunerError("DISPLAY is not set. Start the tool inside your Cinnamon graphical session.")
     run_command(["wmctrl", "-m"])
@@ -314,7 +318,9 @@ def print_discovery(cfg: Config) -> None:
     for window in matching:
         matched = "MATCH" if is_target_window(window, cfg) else "NOT_MATCH"
         focus = " ACTIVE" if window.window_id == active else ""
-        print(f"  {matched}{focus} id={window.window_id} desktop={window.desktop} WM_CLASS={window.wm_class} title={window.title!r}")
+        print(
+            f"  {matched}{focus} id={window.window_id} desktop={window.desktop} WM_CLASS={window.wm_class} title={window.title!r}"
+        )
 
 
 def build_parser() -> argparse.ArgumentParser:

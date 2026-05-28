@@ -15,7 +15,7 @@ install -d "$AUTOSTART_DIR"
 # Escape replacement delimiter and ampersands for sed; executable paths with spaces are quoted in Exec=.
 escaped_wrapper="${WRAPPER//&/\\&}"
 escaped_wrapper="${escaped_wrapper//|/\\|}"
-sed "s|@EXEC_PATH@|$escaped_wrapper|g" "$TEMPLATE" > "$TARGET"
+sed "s|@EXEC_PATH@|$escaped_wrapper|g" "$TEMPLATE" >"$TARGET"
 chmod 0644 "$TARGET"
 printf 'Enabled Cinnamon login autostart: %s\n' "$TARGET"
 printf 'The daemon will use your configured dry_run value on next login.\n'
