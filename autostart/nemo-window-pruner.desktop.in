@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Nemo Window Pruner (PoC v0.1)
+Comment=Prune excess inactive Nemo windows using a safe LRU policy
+Exec="@EXEC_PATH@"
+Terminal=false
+OnlyShowIn=X-Cinnamon;
+X-GNOME-Autostart-enabled=true
+Hidden=false
