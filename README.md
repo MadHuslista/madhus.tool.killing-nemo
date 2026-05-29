@@ -1,4 +1,7 @@
-# Nemo Window Pruner — Proof of Concept v0.1
+# Killing Nemo — Nemo Window Pruner 
+---
+Proof of Concept v0.1
+---
 
 A small, reversible X11 daemon for Linux Mint/Cinnamon that limits **Nemo file-manager windows** using a safe least-recently-used policy: when too many Nemo windows remain open, it may gracefully close only an old, unfocused, inactive window.
 
